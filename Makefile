@@ -1,9 +1,10 @@
 CC = gcc
 SRC_DIR = src
+INC_DIR = include
 BIN_DIR = bin
 OBJ_DIR = obj
 TARGET = $(BIN_DIR)/macacompiler
-CFLAGS = -Wall -pedantic -std=c99
+CFLAGS = -I$(INC_DIR) -Wall -pedantic -std=c99
 
 # Lista de arquivos fonte
 SRCS = $(wildcard $(SRC_DIR)/*.c)
@@ -19,7 +20,7 @@ $(TARGET): $(OBJS)
 # Compilação de cada arquivo objeto
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 # Comando build para compilar o projeto
 build: $(TARGET)
@@ -31,3 +32,5 @@ clean:
 # Executa o teste com o arquivo test.caco
 test: $(TARGET)
 	$(TARGET) test.caco
+
+
