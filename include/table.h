@@ -1,13 +1,15 @@
+#ifndef TABLE_H
+#define TABLE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
 
 #define TABLE_SIZE 100
 
 typedef struct Symbol {
-    char name[50];
-    char type[20];
-    int scope_level;
+    Token * token;
     struct Symbol *next;
 } Symbol;
 
@@ -31,20 +33,18 @@ SymbolTable* create_table() {
     return sym_table;
 }
 
-void insert_symbol(SymbolTable *sym_table, const char *name, const char *type, int scope_level) {
-    unsigned int index = hash(name);
+void insert_symbol(SymbolTable *sym_table, Token *token) {
+    unsigned int index = hash(token->lexeme);
     Symbol *new_symbol = (Symbol *)malloc(sizeof(Symbol));
-    strcpy(new_symbol->name, name);
-    strcpy(new_symbol->type, type);
-    new_symbol->scope_level = scope_level;
+    new_symbol->token = token;
     new_symbol->next = sym_table->table[index];
     sym_table->table[index] = new_symbol;
 }
 
-Symbol* lookup_symbol(SymbolTable *sym_table, const char *name) {
-    unsigned int index = hash(name);
+Symbol* lookup_symbol(SymbolTable *sym_table, Token *token) {
+    unsigned int index = hash(token->lexeme);
     Symbol *current = sym_table->table[index];
-    while (current != NULL && strcmp(current->name, name) != 0) {
+    while (current != NULL && strcmp(current->token->lexeme, token->lexeme) != 0) {
         current = current->next;
     }
     return current;
@@ -56,7 +56,7 @@ void print_table(SymbolTable *sym_table) {
         if (current != NULL) {
             printf("Index %d: ", i);
             while (current != NULL) {
-                printf("%s (%s), ", current->name, current->type);
+                printf("%s (%s), ", current->token->lexeme, current->token->lexeme);
                 current = current->next;
             }
             printf("\n");
@@ -64,3 +64,4 @@ void print_table(SymbolTable *sym_table) {
     }
 }
 
+#endif // TABLE_H

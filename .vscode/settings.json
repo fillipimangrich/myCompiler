@@ -3,6 +3,7 @@
         "types.h": "c",
         "ctype.h": "c",
         "stdlib.h": "c",
-        "compiler_state.h": "c"
+        "compiler_state.h": "c",
+        "typeinfo": "cpp"
     }
 }

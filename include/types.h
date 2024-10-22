@@ -19,9 +19,42 @@ extern const char* TokenString[];
 
 typedef struct {
     TokenType type;
-    char lexeme[256];  // máximo de 256 caracteres por token
+    char lexeme[256];
 } Token;
+
+typedef enum {
+    NODE_FUNCTION,
+    NODE_VAR_DECL,
+    NODE_ASSIGN,
+    NODE_IF,
+    NODE_FOR,
+    NODE_RETURN,
+    NODE_EXPRESSION,
+} NodeType;
+
+typedef struct ASTNode {
+    NodeType type;
+    Token token;
+
+    union types
+    {
+        struct{
+            struct ASTNode *left;
+            struct ASTNode *right;
+        } expression;
+
+        struct{
+            struct ASTNode *ident;
+            struct ASTNode *value;
+        } assign;
+
+        struct{
+            struct ASTNode *type;
+        } vardecl;
+
+    };
+    
+} ASTNode;
 
 
 #endif // TYPES_H
-

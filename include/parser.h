@@ -10,75 +10,75 @@ void advance();
 
 void match(TokenType expected_type);
 
-void program();
+ASTNode* program();
 
-void funclist();
+ASTNode* funclist();
 
-void funcdef();
+ASTNode* funcdef();
 
-void paramlist();
+ASTNode* paramlist();
 
-void optional_paramlist();
+ASTNode* optional_paramlist();
 
-void type();
+ASTNode* type();
 
-void statement();
+ASTNode* statement();
 
-void vardecl();
+ASTNode* vardecl();
 
-void int_const();
+ASTNode* int_const();
 
-void atribstat();
+ASTNode* atribstat();
 
-void stat();
+ASTNode* stat();
 
-void funccall();
+ASTNode* funccall();
 
-void paramlistcall();
+ASTNode* paramlistcall();
 
-void optional_paramlistcall();
+ASTNode* optional_paramlistcall();
 
-void returnstat();
+ASTNode* returnstat();
 
-void optional_ident();
+ASTNode* optional_ident();
 
-void ifstat();
+ASTNode* ifstat();
 
-void optional_else();
+ASTNode* optional_else();
 
-void forstat();
+ASTNode* forstat();
 
-void statelist();
+ASTNode* statelist();
 
-void optional_statelist();
+ASTNode* optional_statelist();
 
-void expression();
+ASTNode* expression();
 
-void optional_comparator();
+ASTNode* optional_comparator();
 
-void least_precedence_comparator();
+ASTNode* least_precedence_comparator();
 
-void comparator();
+ASTNode* comparator();
 
-void numexpression();
+ASTNode* numexpression();
 
-void numexpressionaux();
+ASTNode* numexpressionaux();
 
-void operator();
+ASTNode* operator();
 
-void term();
+ASTNode* term();
 
-void term_aux();
+ASTNode* term_aux();
 
-void high_precedence_operator();
+ASTNode* high_precedence_operator();
 
-void unaryexpr();
+ASTNode* unaryexpr();
 
-void factor();
+ASTNode* factor();
 
-void lvalue();
+ASTNode* lvalue();
 
-void lvalueaux();
+ASTNode* lvalueaux();
 
 #endif // PARSER_H
 

@@ -14,25 +14,36 @@ void match(TokenType expected_type) {
     }
 }
 
-void program() {
+ASTNode* program() {
     printf("program\n");
+
+    ASTNode *node = NULL;
     if (cs.current_token.type == DEF) {
         funclist();
     } else {
         statement();
     }
+
+    return node;
 }
 
-void funclist() {
+ASTNode* funclist() {
     printf("funclist\n");
+
+    ASTNode *node = NULL;
     if (cs.current_token.type == DEF) {
         funcdef();
         funclist(); 
     }
+
+    return node;
 }
 
-void funcdef() {
+ASTNode* funcdef() {
     printf("funcdef\n");
+
+    ASTNode *node = NULL;
+
     match(DEF);
     type();  
     match(FUNC_IDENT);  
@@ -42,29 +53,42 @@ void funcdef() {
     match(LBRACE);  
     statelist();  
     match(RBRACE); 
+
+    return node;
 }
 
-void paramlist() {
+ASTNode* paramlist() {
     printf("paramlist\n");
+
+    ASTNode *node = NULL;
+
     if (cs.current_token.type == INT || cs.current_token.type == FLOAT || cs.current_token.type == STRING) {
         type(); 
         match(IDENT); 
         optional_paramlist();  
     }
+
+    return node;
 }
 
-void optional_paramlist() {
+ASTNode* optional_paramlist() {
     printf("optional_paramlist\n");
+
+    ASTNode *node = NULL;
     if (cs.current_token.type == COMMA) {
         match(COMMA);
         type();
         match(IDENT);
         optional_paramlist();
     }
+
+    return node;
 }
 
-void type() {
+ASTNode* type() {
     printf("type\n");
+
+    ASTNode *node = NULL;
     if (cs.current_token.type == INT) {
         match(INT);
     } else if (cs.current_token.type == FLOAT) {
@@ -75,10 +99,14 @@ void type() {
         printf("Erro: Tipo inválido\n");
         exit(1);
     }
+
+    return node;
 }
 
-void statement() {
+ASTNode* statement() {
     printf("statement\n");
+
+    ASTNode *node = NULL;
     if (cs.current_token.type == INT || cs.current_token.type == FLOAT || cs.current_token.type == STRING) {
         vardecl();
         match(SEMICOLON);
@@ -102,33 +130,43 @@ void statement() {
         printf("Erro de sintaxe: Declaração inválida\n");
         exit(1);
     }
+
+    return node;
 }
 
-void vardecl(){
+ASTNode* vardecl(){
     printf("vardecl\n");
+
+    ASTNode *node = NULL;
     type();
     match(IDENT);
     int_const();
+
+    return node;
 }
 
-void int_const(){
+ASTNode* int_const(){
     printf("int_const\n");
+
+    ASTNode *node = NULL;
     if(cs.current_token.type == LBRACK){
         match(LBRACK);
         match(INT_CONST);
         match(RBRACK);
         int_const();
     }
+
+    return node;
 }
 
-void atribstat(){
+ASTNode* atribstat(){
     printf("atribstat\n");
     lvalue();
     match(ASSIGN);
     stat();
 }
 
-void stat(){
+ASTNode* stat(){
     printf("stat\n");
     if(cs.current_token.type == FUNC_IDENT){
         funccall();
@@ -137,7 +175,7 @@ void stat(){
     }
 }
 
-void funccall(){
+ASTNode* funccall(){
     printf("funccall\n");
     match(FUNC_IDENT);
     match(LPAREN);
@@ -145,7 +183,7 @@ void funccall(){
     match(RPAREN);
 }
 
-void paramlistcall(){
+ASTNode* paramlistcall(){
     printf("paramlistcall\n");
     if(cs.current_token.type == IDENT){
         match(IDENT);
@@ -153,27 +191,27 @@ void paramlistcall(){
     }
 }
 
-void optional_paramlistcall(){
+ASTNode* optional_paramlistcall(){
     printf("optional_paramlistcall\n");
     match(COMMA);
     match(IDENT);
     optional_paramlistcall();
 }
 
-void returnstat(){
+ASTNode* returnstat(){
     printf("returnstat\n");
     match(RETURN);
     optional_ident();
 }
 
-void optional_ident(){
+ASTNode* optional_ident(){
     printf("optional_ident\n");
     if(cs.current_token.type == IDENT){
         match(IDENT);
     }
 }
 
-void ifstat(){
+ASTNode* ifstat(){
     printf("ifstat\n");
     match(IF);
     match(LPAREN);
@@ -183,7 +221,7 @@ void ifstat(){
     optional_else();
 }
 
-void optional_else(){
+ASTNode* optional_else(){
     printf("optional_else\n");
     if(cs.current_token.type == ELSE){
         match(ELSE);
@@ -191,7 +229,7 @@ void optional_else(){
     }
 }
 
-void forstat(){
+ASTNode* forstat(){
     printf("forstat\n");
     match(FOR);
     match(LPAREN);
@@ -204,13 +242,13 @@ void forstat(){
     statement();
 }
 
-void statelist(){
+ASTNode* statelist(){
     printf("statelist\n");
     statement();
     optional_statelist();
 }
 
-void optional_statelist(){
+ASTNode* optional_statelist(){
     printf("optional_statelist\n");
     if(cs.current_token.type == RBRACE){
         return;   
@@ -219,7 +257,7 @@ void optional_statelist(){
     }
 }
 
-void expression(){
+ASTNode* expression(){
     printf("expression\n");
     if(cs.current_token.type == NOT){
         match(NOT);
@@ -230,7 +268,7 @@ void expression(){
     }
 }
 
-void optional_comparator(){
+ASTNode* optional_comparator(){
     printf("optional_comparator\n");
     if(cs.current_token.type == LT || cs.current_token.type == GT || 
     cs.current_token.type == LEQ || cs.current_token.type == GEQ ||
@@ -242,12 +280,12 @@ void optional_comparator(){
     }
 }
 
-void least_precedence_comparator(){
+ASTNode* least_precedence_comparator(){
     printf("least_precedence_comparator\n");
     match(OR);
 }
 
-void comparator(){
+ASTNode* comparator(){
     printf("comparator\n");
     if(cs.current_token.type == LT){
         match(LT);
@@ -269,13 +307,13 @@ void comparator(){
     }
 }
 
-void numexpression(){
+ASTNode* numexpression(){
     printf("numexpression\n");
     term();
     numexpressionaux();
 }
 
-void numexpressionaux(){
+ASTNode* numexpressionaux(){
     printf("numexpressionaux\n");
     if(cs.current_token.type == PLUS || cs.current_token.type == MINUS){
         operator();
@@ -284,7 +322,7 @@ void numexpressionaux(){
     }
 }
 
-void operator(){
+ASTNode* operator(){
     printf("operator\n");
     if(cs.current_token.type == PLUS){
         match(PLUS);
@@ -296,13 +334,13 @@ void operator(){
     }
 }
 
-void term(){
+ASTNode* term(){
     printf("term\n");
     unaryexpr();
     term_aux();
 }
 
-void term_aux(){
+ASTNode* term_aux(){
     printf("term_Aux\n");
     if(cs.current_token.type == MOD || cs.current_token.type == DIV || 
     cs.current_token.type == MULT){
@@ -312,7 +350,7 @@ void term_aux(){
     }
 }
 
-void high_precedence_operator(){
+ASTNode* high_precedence_operator(){
     printf("high_precedence_operator\n");
     if(cs.current_token.type == MOD){
         match(MOD);
@@ -326,7 +364,7 @@ void high_precedence_operator(){
     }
 }
 
-void unaryexpr(){
+ASTNode* unaryexpr(){
     printf("unaryexpr\n");
     if(cs.current_token.type == PLUS || cs.current_token.type == MINUS){
         operator();
@@ -336,7 +374,7 @@ void unaryexpr(){
     }
 }
 
-void factor(){
+ASTNode* factor(){
     printf("factor\n");
     if(cs.current_token.type == INT_CONST){
         match(INT_CONST);
@@ -356,7 +394,7 @@ void factor(){
     }
 }
 
-void lvalue(){
+ASTNode* lvalue(){
     printf("lvalue\n");
     if(cs.current_token.type == IDENT){
         match(IDENT);
@@ -367,7 +405,7 @@ void lvalue(){
     }
 }
 
-void lvalueaux(){
+ASTNode* lvalueaux(){
     printf("lvalueaux\n");
     if(cs.current_token.type == LBRACK){
         match(LBRACK);
