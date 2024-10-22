@@ -20,6 +20,8 @@ extern const char* TokenString[];
 typedef struct {
     TokenType type;
     char lexeme[256];
+    int line;
+    int column;
 } Token;
 
 typedef enum {

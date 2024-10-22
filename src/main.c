@@ -34,9 +34,14 @@ int main(int argc, char **argv)
 
     fclose(fp); 
 
+    cs.current_file_name = argv[2];
+
     cs.buffer = buffer;
     cs.buffer_size = file_size;
     cs.cursor = 0;
+
+    cs.column = 0;
+    cs.line = 0;
 
     advance();
     program();
