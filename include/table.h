@@ -64,20 +64,3 @@ void print_table(SymbolTable *sym_table) {
     }
 }
 
-int main() {
-    SymbolTable *table = create_table();
-
-    insert_symbol(table, "x", "int", 0);
-    insert_symbol(table, "y", "float", 0);
-
-    Symbol *sym = lookup_symbol(table, "x");
-    if (sym != NULL) {
-        printf("Found symbol: %s of type %s\n", sym->name, sym->type);
-    } else {
-        printf("Symbol not found\n");
-    }
-
-    print_table(table);
-
-    return 0;
-}
