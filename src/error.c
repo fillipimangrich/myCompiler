@@ -5,6 +5,9 @@
 #include <string.h>
 #include "types.h"
 
+#define RED     "\x1b[31m"
+#define RESET   "\x1b[0m"
+
 ErrorContext error_ctx = {0};
 
 void init_error_context(const char* filename, const char* source) {
@@ -14,27 +17,20 @@ void init_error_context(const char* filename, const char* source) {
     error_ctx.warning_count = 0;
 }
 
-char* get_line_from_source(const char* source, int target_line) {
-    int current_line = 1;
-    const char* line_start = source;
-    const char* current = source;
-    
-    // Find the start of the target line
-    while (*current && current_line < target_line) {
-        if (*current == '\n') {
-            current_line++;
-            line_start = current + 1;
-        }
-        current++;
+char* get_line_from_source(const char* source, int cursor_pos) {
+    // Find start of current line by going backwards until newline
+    const char* line_start = source + cursor_pos;
+    while (line_start > source && *(line_start - 1) != '\n') {
+        line_start--;
     }
     
-    // Find the end of the line
-    const char* line_end = line_start;
+    // Find end of current line
+    const char* line_end = source + cursor_pos;
     while (*line_end && *line_end != '\n') {
         line_end++;
     }
     
-    // Create a copy of the line
+    // Create copy of current line
     int line_length = line_end - line_start;
     char* line_copy = (char*)malloc(line_length + 1);
     strncpy(line_copy, line_start, line_length);
@@ -45,13 +41,17 @@ char* get_line_from_source(const char* source, int target_line) {
 
 void print_error_location(const char* line, int column) {
     // Print the line
-    printf("%s\n", line);
+    printf("%s%s%s\n", RED, line, RESET);
     
     // Print the caret pointing to the error
-    for (int i = 0; i < column - 1; i++) {
-        printf(" ");
+    for (int i = 0; i < column; i++) {
+        if (isspace(line[i])) {
+            printf("%c", line[i]); // Preserve tab alignment
+        } else {
+            printf(" ");
+        }
     }
-    printf("^\n");
+    printf("%s^%s\n", RED, RESET);
 }
 
 void report_error(ErrorType type, const char* message, Token* token, const char* expected) {
@@ -74,18 +74,20 @@ void report_error(ErrorType type, const char* message, Token* token, const char*
             break;
     }
     
-    // Print file and location information
-    printf("\n%s:%d:%d: %s: %s\n", 
+    // Print file and location information in red
+    printf("\n%s%s:%d:%d: %s: %s%s\n", 
+           RED,
            error_ctx.filename, 
-           token ? token->line : cs.line,
-           token ? token->column : cs.column,
+           token->line,
+           token->column,
            error_type_str,
-           message);
+           message,
+           RESET);
     
     // Get the source line
-    char* source_line = get_line_from_source(cs.buffer, token ? token->line : cs.line);
+    char* source_line = get_line_from_source(cs.buffer, cs.cursor);
     if (source_line) {
-        print_error_location(source_line, token ? token->column : cs.column);
+        print_error_location(source_line, token->column );
         free(source_line);
     }
     

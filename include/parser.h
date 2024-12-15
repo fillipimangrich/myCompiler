@@ -5,10 +5,14 @@
 #include "scanner.h" 
 #include "types.h"
 #include "compiler_state.h"
+#include "ast.h" 
+#include "semantic.h"
+#include "error.h"
+#include <stdbool.h>
 
 void advance();
 
-void match(TokenType expected_type);
+bool match(TokenType expected_type);
 
 ASTNode* program();
 
@@ -80,5 +84,6 @@ ASTNode* lvalue();
 
 ASTNode* lvalueaux();
 
-#endif // PARSER_H
+void free_ast_node(ASTNode* node);
 
+#endif // PARSER_H

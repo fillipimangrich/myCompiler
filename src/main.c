@@ -3,6 +3,7 @@
 #include "types.h"
 #include "compiler_state.h"
 #include "parser.h"
+#include "error.h"
 
 int main(int argc, char **argv) 
 {
@@ -42,12 +43,19 @@ int main(int argc, char **argv)
 
     cs.column = 0;
     cs.line = 0;
+
+    init_error_context(argv[1], buffer);
  
     advance();
     program();
     
     free(buffer);
+        if (error_ctx.error_count > 0 || error_ctx.warning_count > 0) {
+        printf("\nCompilation finished with %d errors and %d warnings\n",
+               error_ctx.error_count,
+               error_ctx.warning_count);
+    }
     
-    return 0;
+    return error_ctx.error_count > 0 ? 1 : 0;
 }
 

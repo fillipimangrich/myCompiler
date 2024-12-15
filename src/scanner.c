@@ -14,6 +14,7 @@ Token getNextToken() {
                 cs.column = 0;  // Reiniciar coluna em nova linha
             }
             ++cs.cursor;
+            ++cs.column;
             continue;
         }
 
@@ -29,110 +30,166 @@ Token getNextToken() {
             case '=':
                 if (cs.buffer[cs.cursor + 1] == '=') {
                     cs.cursor += 2;
+                    cs.column += 2;
                     token.type = EQ;
                     strcpy(token.lexeme, "==");
                 } else {
                     ++cs.cursor;
+                    ++cs.column;
                     token.type = ASSIGN;
                     strcpy(token.lexeme, "=");
                 }
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '+':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = PLUS;
                 strcpy(token.lexeme, "+");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '-':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = MINUS;
                 strcpy(token.lexeme, "-");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '*':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = MULT;
                 strcpy(token.lexeme, "*");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '/':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = DIV;
                 strcpy(token.lexeme, "/");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '%':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = MOD;
                 strcpy(token.lexeme, "%");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '<':
                 if (cs.buffer[cs.cursor + 1] == '=') {
                     cs.cursor += 2;
+                    cs.column += 2;
                     token.type = LEQ;
                     strcpy(token.lexeme, "<=");
                 } else {
                     ++cs.cursor;
+                    ++cs.column;
                     token.type = LT;
                     strcpy(token.lexeme, "<");
                 }
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '>':
                 if (cs.buffer[cs.cursor + 1] == '=') {
                     cs.cursor += 2;
+                    cs.column += 2;
                     token.type = GEQ;
                     strcpy(token.lexeme, ">=");
                 } else {
                     ++cs.cursor;
+                    ++cs.column;
                     token.type = GT;
                     strcpy(token.lexeme, ">");
                 }
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '{':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = LBRACE;
                 strcpy(token.lexeme, "{");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '}':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = RBRACE;
                 strcpy(token.lexeme, "}");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '(':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = LPAREN;
                 strcpy(token.lexeme, "(");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case ')':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = RPAREN;
                 strcpy(token.lexeme, ")");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case '[':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = LBRACK;
                 strcpy(token.lexeme, "(");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case ']':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = RBRACK;
                 strcpy(token.lexeme, ")");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case ';':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = SEMICOLON;
                 strcpy(token.lexeme, ";");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
             case ',':
                 ++cs.cursor;
+                ++cs.column;
                 token.type = COMMA;
                 strcpy(token.lexeme, ",");
+                token.line = cs.line;
+                token.column = cs.column;
                 return token;
         }
 
         token.type = UNKNOWN;
         token.lexeme[0] = c;
         token.lexeme[1] = '\0';
+        token.line = cs.line;
+        token.column = cs.column;
+        ++cs.column;
         return token;
     }
 
     token.type = END_OF_FILE;
+    token.line = cs.line;
+    token.column = cs.column;
     return token;
 }
 
@@ -140,7 +197,9 @@ Token scanIdent(){
     Token token;
     int start = cs.cursor;
 
-    while (isalnum(cs.buffer[cs.cursor])) cs.cursor++;
+    while (isalnum(cs.buffer[cs.cursor])) {
+        cs.cursor++;
+    }
 
     int length = cs.cursor - start;
     strncpy(token.lexeme, &cs.buffer[start], length);
@@ -174,6 +233,8 @@ Token scanIdent(){
     } 
     
     cs.column += length;
+    token.line = cs.line;
+    token.column = cs.column;
 
     return token;
 }
@@ -182,11 +243,18 @@ Token scanNumber(){
     Token token;
     int start = cs.cursor;
 
-    while (isdigit(cs.buffer[cs.cursor])) cs.cursor++;
+    while (isdigit(cs.buffer[cs.cursor])) {
+        ++cs.cursor;
+        ++cs.column;
+    }
 
     if (cs.buffer[cs.cursor] == '.') {
-        cs.cursor++;
-        while (isdigit(cs.buffer[cs.cursor])) cs.cursor++;
+        ++cs.cursor;
+        ++cs.column;
+        while (isdigit(cs.buffer[cs.cursor])) {
+            ++cs.cursor;
+            ++cs.column;
+        }
         token.type = FLOAT_CONST;
     } else {
         token.type = INT_CONST;
@@ -195,5 +263,7 @@ Token scanNumber(){
     int length = cs.cursor - start;
     strncpy(token.lexeme, &cs.buffer[start], length);
     token.lexeme[length] = '\0';
+    token.line = cs.line;
+    token.column = cs.column;
     return token;
 }

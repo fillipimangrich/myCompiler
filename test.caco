@@ -1,4 +1,6 @@
 
 def int main(){
+    a = b + 1 a;
+    a = b + 1;
     a = b + 1;
 };

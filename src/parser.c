@@ -1,8 +1,5 @@
 #include "parser.h"
-#include "ast.h" 
-#include "semantic.h"
-#include "error.h"
-#include <stdbool.h>
+
 
 void advance() {
     cs.current_token = getNextToken();
@@ -1353,4 +1350,79 @@ ASTNode* lvalueaux() {
         return result;
     }
     return NULL;
+}
+
+
+void free_ast_node(ASTNode* node) {
+    if (!node) return;
+
+    // Free any child nodes based on node type
+    switch (node->type) {
+        case NODE_BLOCK:
+            if (node->data.block.statements) {
+                for (int i = 0; i < node->data.block.count; i++) {
+                    free_ast_node(node->data.block.statements[i]);
+                }
+                free(node->data.block.statements);
+            }
+            break;
+            
+        case NODE_FUNCTION:
+            free_ast_node(node->data.function.id);
+            free_ast_node(node->data.function.params);
+            free_ast_node(node->data.function.body);
+            break;
+            
+        case NODE_BINARY_OP:
+            free_ast_node(node->data.binary.left);
+            free_ast_node(node->data.binary.right);
+            break;
+            
+        case NODE_UNARY_OP:
+            free_ast_node(node->data.binary.left);
+            break;
+            
+        case NODE_VAR_DECL:
+            free_ast_node(node->data.var_decl.id);
+            break;
+            
+        case NODE_IF:
+            free_ast_node(node->data.if_stmt.condition);
+            free_ast_node(node->data.if_stmt.then_branch);
+            free_ast_node(node->data.if_stmt.else_branch);
+            break;
+            
+        case NODE_FOR:
+            free_ast_node(node->data.for_stmt.init);
+            free_ast_node(node->data.for_stmt.condition);
+            free_ast_node(node->data.for_stmt.increment);
+            free_ast_node(node->data.for_stmt.body);
+            break;
+            
+        case NODE_RETURN:
+            free_ast_node(node->data.return_stmt.expr);
+            break;
+            
+        case NODE_CALL:
+            free_ast_node(node->data.call.function);
+            free_ast_node(node->data.call.args);
+            break;
+            
+        case NODE_LITERAL:
+            if (node->data.literal.literal_type == STRING && node->data.literal.literal.string_value) {
+                free(node->data.literal.literal.string_value);  
+            }
+            break;
+            
+        default:
+            break;
+    }
+
+    // Free any next node in linked lists
+    if (node->next) {
+        free_ast_node(node->next);
+    }
+
+    // Finally free the node itself
+    free(node);
 }
