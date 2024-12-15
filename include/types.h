@@ -45,8 +45,8 @@ typedef enum {
 typedef struct ASTNode {
     NodeType type;
     Token token;
-    
-    union {
+    struct ASTNode* next;
+    union NodeData {
         // For binary operations (arithmetic, logical, comparison)
         struct {
             struct ASTNode *left;
@@ -108,9 +108,10 @@ typedef struct ASTNode {
                 int int_value;
                 float float_value;
                 char *string_value;
-            };
+            } literal;
         } literal;
-    };
+    } data;
+
 } ASTNode;
 
 #endif // TYPES_H
