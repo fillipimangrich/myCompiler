@@ -26,86 +26,101 @@ Token getNextToken() {
         }
 
         switch (c) {
-            ++cs.cursor;
             case '=':
                 if (cs.buffer[cs.cursor + 1] == '=') {
-                    ++cs.cursor;
+                    cs.cursor += 2;
                     token.type = EQ;
                     strcpy(token.lexeme, "==");
                 } else {
+                    ++cs.cursor;
                     token.type = ASSIGN;
                     strcpy(token.lexeme, "=");
                 }
                 return token;
             case '+':
+                ++cs.cursor;
                 token.type = PLUS;
                 strcpy(token.lexeme, "+");
                 return token;
             case '-':
+                ++cs.cursor;
                 token.type = MINUS;
                 strcpy(token.lexeme, "-");
                 return token;
             case '*':
+                ++cs.cursor;
                 token.type = MULT;
                 strcpy(token.lexeme, "*");
                 return token;
             case '/':
+                ++cs.cursor;
                 token.type = DIV;
                 strcpy(token.lexeme, "/");
                 return token;
             case '%':
+                ++cs.cursor;
                 token.type = MOD;
                 strcpy(token.lexeme, "%");
                 return token;
             case '<':
                 if (cs.buffer[cs.cursor + 1] == '=') {
-                    ++cs.cursor;
+                    cs.cursor += 2;
                     token.type = LEQ;
                     strcpy(token.lexeme, "<=");
                 } else {
+                    ++cs.cursor;
                     token.type = LT;
                     strcpy(token.lexeme, "<");
                 }
                 return token;
             case '>':
                 if (cs.buffer[cs.cursor + 1] == '=') {
-                    ++cs.cursor;
+                    cs.cursor += 2;
                     token.type = GEQ;
                     strcpy(token.lexeme, ">=");
                 } else {
+                    ++cs.cursor;
                     token.type = GT;
                     strcpy(token.lexeme, ">");
                 }
                 return token;
             case '{':
+                ++cs.cursor;
                 token.type = LBRACE;
                 strcpy(token.lexeme, "{");
                 return token;
             case '}':
+                ++cs.cursor;
                 token.type = RBRACE;
                 strcpy(token.lexeme, "}");
                 return token;
             case '(':
+                ++cs.cursor;
                 token.type = LPAREN;
                 strcpy(token.lexeme, "(");
                 return token;
             case ')':
+                ++cs.cursor;
                 token.type = RPAREN;
                 strcpy(token.lexeme, ")");
                 return token;
             case '[':
+                ++cs.cursor;
                 token.type = LBRACK;
                 strcpy(token.lexeme, "(");
                 return token;
             case ']':
+                ++cs.cursor;
                 token.type = RBRACK;
                 strcpy(token.lexeme, ")");
                 return token;
             case ';':
+                ++cs.cursor;
                 token.type = SEMICOLON;
                 strcpy(token.lexeme, ";");
                 return token;
             case ',':
+                ++cs.cursor;
                 token.type = COMMA;
                 strcpy(token.lexeme, ",");
                 return token;

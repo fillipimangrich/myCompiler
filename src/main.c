@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 
     cs.column = 0;
     cs.line = 0;
-
+ 
     advance();
     program();
     

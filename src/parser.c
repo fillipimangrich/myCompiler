@@ -13,15 +13,17 @@ void match(TokenType expected_type) {
         exit(1);
     }
 }
-
 ASTNode* program() {
     printf("program\n");
 
-    ASTNode *node = NULL;
+    ASTNode *node = create_node(NODE_PROGRAM);
+    node->block.statements = malloc(sizeof(ASTNode*));
+    node->block.count = 1;
+
     if (cs.current_token.type == DEF) {
-        funclist();
+        node->block.statements[0] = funclist();
     } else {
-        statement();
+        node->block.statements[0] = statement();
     }
 
     return node;
@@ -30,7 +32,7 @@ ASTNode* program() {
 ASTNode* funclist() {
     printf("funclist\n");
 
-    ASTNode *node = NULL;
+    ASTNode *node = create_node(NODE_FUNCTION);
     if (cs.current_token.type == DEF) {
         funcdef();
         funclist(); 
@@ -275,8 +277,10 @@ ASTNode* optional_comparator(){
     cs.current_token.type == EQ || cs.current_token.type == NEQ ||
     cs.current_token.type == AND){
         comparator();
+        numexpression();
     }else if(cs.current_token.type == OR){
         least_precedence_comparator();
+        numexpression();
     }
 }
 
