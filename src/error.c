@@ -51,7 +51,7 @@ void print_error_location(const char* line, int column) {
             printf(" ");
         }
     }
-    printf("%s^%s\n", RED, RESET);
+    printf("^\n");
 }
 
 void report_error(ErrorType type, const char* message, Token* token, const char* expected) {
@@ -74,24 +74,23 @@ void report_error(ErrorType type, const char* message, Token* token, const char*
             break;
     }
     
-    // Print file and location information in red
-    printf("\n%s%s:%d:%d: %s: %s%s\n", 
-           RED,
+    printf("\n%s:%d:%d: ", 
            error_ctx.filename, 
            token->line,
-           token->column,
+           token->column);
+           
+    printf("%s%s: %s%s\n",
+           RED,
            error_type_str,
            message,
            RESET);
     
-    // Get the source line
     char* source_line = get_line_from_source(cs.buffer, cs.cursor);
     if (source_line) {
         print_error_location(source_line, token->column );
         free(source_line);
     }
     
-    // Print additional information for syntax errors
     if (type == ERROR_SYNTAX && expected) {
         printf("Expected: %s\n", expected);
         printf("Found: %s\n", token ? token->lexeme : "end of file");
