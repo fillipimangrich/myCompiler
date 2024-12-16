@@ -1,11 +1,19 @@
+def int test(){
+    int a;
+    a = 0;
+    return a;
+}
+
 def int main() {
     int a;
     float b;
     float c;
 
     a = 1;
-    b = 2;
+    b = 2.0;
     c = a + b;
+
+    a = test();
 
     return c;  
 };

@@ -30,7 +30,15 @@ clean:
 	rm -rf $(BIN_DIR) $(OBJ_DIR)
 
 # Executa o teste com o arquivo test.caco
-test: $(TARGET)
-	$(TARGET) test.caco
+test1: $(TARGET)
+	$(TARGET) test1.caco
+
+# Executa o teste com o arquivo test.caco
+test2: $(TARGET)
+	$(TARGET) test2.caco
+
+# Executa o teste com o arquivo test.caco
+test3: $(TARGET)
+	$(TARGET) test3.caco
 
 
