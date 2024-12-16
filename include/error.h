@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include "compiler_state.h"
+#include <ctype.h>
+
 
 typedef enum {
     ERROR_LEXICAL,

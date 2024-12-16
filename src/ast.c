@@ -49,6 +49,9 @@ ASTNode* create_binary_op(TokenType op, ASTNode* left, ASTNode* right) {
 
 ASTNode* create_literal_int(int value) {
     ASTNode* node = create_node(NODE_LITERAL);
+    if (!node) return NULL;
+    
+    snprintf(node->token.lexeme, sizeof(node->token.lexeme), "%d", value);
     node->data.literal.literal_type = INT_CONST;
     node->data.literal.literal.int_value = value;
     return node;
@@ -56,6 +59,9 @@ ASTNode* create_literal_int(int value) {
 
 ASTNode* create_literal_float(float value) {
     ASTNode* node = create_node(NODE_LITERAL);
+    if (!node) return NULL;
+    
+    snprintf(node->token.lexeme, sizeof(node->token.lexeme), "%f", value);
     node->data.literal.literal_type = FLOAT_CONST;
     node->data.literal.literal.float_value = value;
     return node;

@@ -3,7 +3,6 @@
 Token getNextToken() {
     Token token;
     token.lexeme[0] = '\0';
-    int previous_cursor = cs.cursor;
 
     while (cs.buffer[cs.cursor] != '\0') {
         char c = cs.buffer[cs.cursor];
@@ -27,6 +26,28 @@ Token getNextToken() {
         }
 
         switch (c) {
+            case '"':
+                ++cs.cursor; // Skip opening quote
+                ++cs.column;
+                int start = cs.cursor;
+                while (cs.buffer[cs.cursor] != '"' && cs.buffer[cs.cursor] != '\0') {
+                    ++cs.cursor;
+                    ++cs.column;
+                }
+                if (cs.buffer[cs.cursor] == '\0') {
+                    token.type = UNKNOWN;
+                    strcpy(token.lexeme, "Unterminated string");
+                } else {
+                    int length = cs.cursor - start;
+                    strncpy(token.lexeme, &cs.buffer[start], length);
+                    token.lexeme[length] = '\0';
+                    token.type = STRING_CONST;
+                    ++cs.cursor; // Skip closing quote
+                    ++cs.column;
+                }
+                token.line = cs.line;
+                token.column = cs.column;
+                return token;
             case '=':
                 if (cs.buffer[cs.cursor + 1] == '=') {
                     cs.cursor += 2;

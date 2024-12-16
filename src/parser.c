@@ -11,7 +11,7 @@ bool match(TokenType expected_type) {
         advance();
         return true;
     } else {
-        char error_msg[256];
+        char error_msg[512];
         snprintf(error_msg, sizeof(error_msg), 
                 "Unexpected token '%s'", cs.current_token.lexeme);
         syntax_error(error_msg, &cs.current_token, TokenString[expected_type]);
@@ -1261,19 +1261,17 @@ ASTNode* factor() {
         }
         return node;
     } else if (cs.current_token.type == STRING_CONST) {
-        char* value = strdup(cs.current_token.lexeme);
+        char* value = cs.current_token.lexeme;
         if (!value) {
             semantic_error("Failed to duplicate string literal", &cs.current_token);
             return NULL;
         }
         if (!match(STRING_CONST)) {
-            free(value);
             return NULL;
         }
         ASTNode* node = create_literal_string(value);
         if (!node) {
             semantic_error("Failed to create string literal node", &cs.current_token);
-            free(value);
             return NULL;
         }
         return node;
