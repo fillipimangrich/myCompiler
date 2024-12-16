@@ -9,3 +9,5 @@ make 3 # Roda o terceiro teste
 ```
 
 O compilador deve então mostrar um feedback de erros e avisos, caso ocorra algum, ou então deve gerar um arquivo de código intermediário no formato de TAC - Código de Três Endereços.
+
+O arquivo gerado será encontrado na pasta base do projeto, com a extensão `.tac`.
