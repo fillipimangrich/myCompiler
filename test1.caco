@@ -1,19 +1,105 @@
-def int test(){
-    int a;
-    a = 0;
-    return a;
+def int example1(){
+   int m;
+   m = 0;
+   return m;
+}
+
+def int example2(){
+   int n;
+   n = 1;
+   return n;
+}
+
+def float example3(){
+   float p;
+   p = 2.0;
+   return p;
+}
+
+def float example4(){
+   float k;
+   k = 3.0;
+   return k;
+}
+
+def int example5(){
+   int l;
+   l = 4;
+   return l;
+}
+
+def float example6(){
+   float o;
+   o = 5.0;
+   return o;
+}
+
+def int example7(){
+   int d;
+   d = 6;
+   return d;
+}
+
+def float example8(){
+   float e;
+   e = 7.0;
+   return e;
+}
+
+def int example9(){
+   int f;
+   f = 8;
+   return f;
+}
+
+def float example10(){
+   float g;
+   g = 9.0;
+   return g;
 }
 
 def int main() {
-    int a;
-    float b;
-    float c;
+   int m;
+   int n;
+   float p;
+   float k;
+   int l;
+   float o;
+   int d;
+   float e;
+   int f;
+   float g;
+   float val1;
+   float val2;
+   float val3;
+   float val4;
+   float answer;
 
-    a = 1;
-    b = 2.0;
-    c = a + b;
+   if(m < n) {
+       val1 = p + k;
+   } else {
+       val1 = k + p;
+   }
 
-    a = test();
+   if(l > d) {
+       val2 = o + e;
+   } else {
+       val2 = e + o;
+   }
 
-    return c;  
-};
+   if(f > 5) {
+       val3 = val1 + g;
+   } else {
+       val3 = g + val1;
+   }
+
+   if(val2 > val3) {
+       val4 = val2 + val3;
+   } else {
+       val4 = val3 + val2;
+   }
+
+   answer = val4;
+
+   return answer;
+}

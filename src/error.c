@@ -103,7 +103,7 @@ void report_error(ErrorType type, const char* message, Token* token, const char*
     }
     
     // Exit on errors (except warnings)
-    if (type != WARNING && error_ctx.error_count > 10) {
+    if (type != WARNING && error_ctx.error_count > 0) {
         printf("\nToo many errors. Compilation aborted.\n");
         exit(1);
     }

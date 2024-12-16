@@ -1,0 +1,105 @@
+def int calc1(){
+   int x;
+   x = 0;
+   return x;
+}
+
+def int calc2(){
+   int y;
+   y = 1;
+   return y;
+}
+
+def float calc3(){
+   float z;
+   z = 2.0;
+   return z;
+}
+
+def float calc4(){
+   float w;
+   w = 3.0;
+   return w;
+}
+
+def int calc5(){
+   int v;
+   v = 4;
+   return v;
+}
+
+def float calc6(){
+   float u;
+   u = 5.0;
+   return u;
+}
+
+def int calc7(){
+   int t;
+   t = 6;
+   return t;
+}
+
+def float calc8(){
+   float s;
+   s = 7.0;
+   return s;
+}
+
+def int calc9(){
+   int r;
+   r = 8;
+   return r;
+}
+
+def float calc10(){
+   float q;
+   q = 9.0;
+   return q;
+}
+
+def int main() {
+   int x;
+   int y;
+   float z;
+   float w;
+   int v;
+   float u;
+   int t;
+   float s;
+   int r;
+   float q;
+   float temp1;
+   float temp2;
+   float temp3;
+   float temp4;
+   float output;
+
+   if(x < y) {
+       temp1 = z + w;
+   } else {
+       temp1 = w + z;
+   }
+
+   if(v > t) {
+       temp2 = u + s;
+   } else {
+       temp2 = s + u;
+   }
+
+   if(r > 5) {
+       temp3 = temp1 + q;
+   } else {
+       temp3 = q + temp1;
+   }
+
+   if(temp2 > temp3) {
+       temp4 = temp2 + temp3;
+   } else {
+       temp4 = temp3 + temp2;
+   }
+
+   output = temp4;
+
+   return output;
+}

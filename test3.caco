@@ -1,0 +1,105 @@
+def int test1(){
+   int a;
+   a = 0;
+   return a;
+}
+
+def int test2(){
+   int b;
+   b = 1;
+   return b;
+}
+
+def float test3(){
+   float c;
+   c = 2.0;
+   return c;
+}
+
+def float test4(){
+   float d;
+   d = 3.0;
+   return d;
+}
+
+def int test5(){
+   int e;
+   e = 4;
+   return e;
+}
+
+def float test6(){
+   float f;
+   f = 5.0;
+   return f;
+}
+
+def int test7(){
+   int g;
+   g = 6;
+   return g;
+}
+
+def float test8(){
+   float h;
+   h = 7.0;
+   return h;
+}
+
+def int test9(){
+   int i;
+   i = 8;
+   return i;
+}
+
+def float test10(){
+   float j;
+   j = 9.0;
+   return j;
+}
+
+def int main() {
+   int a;
+   int b;
+   float c;
+   float d;
+   int e;
+   float f;
+   int g;
+   float h;
+   int i;
+   float j;
+   float result1;
+   float result2;
+   float result3;
+   float result4;
+   float finalResult;
+
+   if(a < b) {
+       result1 = c + d;
+   } else {
+       result1 = d + c;
+   }
+
+   if(e > g) {
+       result2 = f + h;
+   } else {
+       result2 = h + f;
+   }
+
+   if(i > 5) {
+       result3 = result1 + j;
+   } else {
+       result3 = j + result1;
+   }
+
+   if(result2 > result3) {
+       result4 = result2 + result3;
+   } else {
+       result4 = result3 + result2;
+   }
+
+   finalResult = result4;
+
+   return finalResult;
+}
