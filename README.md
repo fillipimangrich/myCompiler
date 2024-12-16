@@ -2,11 +2,20 @@
 
 ## Instruções para executar
 
+O professor pode compilar o projeto da seguinte forma:
+
 ```bash
-make 1 # Roda o primeiro teste
-make 2 # Roda o segundo teste
-make 3 # Roda o terceiro teste
+make build
 ```
+
+Ou então, mais praticamente, podem ser utilizados os comandos a seguir para compilar e rodar os testes específicos:
+
+```bash
+make test1 # Roda o primeiro teste
+make test2 # Roda o segundo teste
+make test3 # Roda o terceiro teste
+```
+A partir disso, o projeto pode ser limpo com um `make clean`.
 
 O compilador deve então mostrar um feedback de erros e avisos, caso ocorra algum, ou então deve gerar um arquivo de código intermediário no formato de TAC - Código de Três Endereços.
 
